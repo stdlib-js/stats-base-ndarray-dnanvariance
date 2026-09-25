@@ -1,4 +1,4 @@
-/**
+/*
 * @license Apache-2.0
 *
 * Copyright (c) 2026 The Stdlib Authors.
@@ -16,10 +16,11 @@
 * limitations under the License.
 */
 
-#include "stdlib/stats/base/ndarray/dnanvariance.h"
-#include "stdlib/stats/strided/dnanvariance.h"
-#include "stdlib/ndarray/ctor.h"
-#include "stdlib/blas/base/shared.h"
+// TypeScript Version: 4.1
+
+/// <reference types="https://cdn.jsdelivr.net/gh/stdlib-js/types@main/index.d.ts"/>
+
+import { float64ndarray, typedndarray } from '@stdlib/types/ndarray';
 
 /**
 * Computes the variance of a one-dimensional double-precision floating-point ndarray, ignoring `NaN` values.
@@ -31,14 +32,26 @@
 *     -   a one-dimensional input ndarray.
 *     -   a zero-dimensional ndarray specifying the degrees of freedom adjustment.
 *
-* @param arrays    list containing ndarrays
-* @return          variance
+* @param arrays - array-like object containing ndarrays
+* @returns variance
+*
+* @example
+* var Float64Vector = require( '@stdlib/ndarray-vector-float64' );
+* var scalar2ndarray = require( '@stdlib/ndarray-from-scalar' );
+*
+* var opts = {
+*     'dtype': 'float64'
+* };
+*
+* var x = new Float64Vector( [ 1.0, -2.0, NaN, 2.0 ] );
+* var correction = scalar2ndarray( 1.0, opts );
+*
+* var v = dnanvariance( [ x, correction ] );
+* // returns ~4.3333
 */
-double stdlib_stats_dnanvariance( const struct ndarray *arrays[] ) {
-	const struct ndarray *x = arrays[ 0 ];
+declare function dnanvariance( arrays: [ float64ndarray, typedndarray<number> ] ): number;
 
-	double correction;
-	stdlib_ndarray_get_float64( arrays[ 1 ], NULL, &correction );
 
-	return API_SUFFIX(stdlib_strided_dnanvariance_ndarray)( stdlib_ndarray_dimension( x, 0 ), correction, (const double *)stdlib_ndarray_data( x ), stdlib_ndarray_stride_elements( x, 0 ), stdlib_ndarray_offset_elements( x ) );
-}
+// EXPORTS //
+
+export = dnanvariance;
